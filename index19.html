@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>k.d.m.v - Maxell Bootleg Hoodie</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      text-align: center;
+    }
+
+    header {
+      padding: 20px;
+      background-color: #fff;
+      color: #333;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    header .basket-button {
+      color: black;
+      font-size: 24px;
+      cursor: pointer;
+      transition: color 0.3s ease;
+      font-weight: bold;
+    }
+
+    header .basket-button:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 28px;
+    }
+
+    .products-container {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .product {
+      background-color: white;
+      padding: 15px;
+      text-align: center;
+      border-radius: 8px;
+      position: relative;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .product img {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .price {
+      font-size: 18px;
+      color: #333;
+      margin: 10px 0;
+    }
+
+    .pagination {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .pagination button {
+      background-color: white;
+      color: black;
+      border: 1px solid #ccc;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+    .pagination button:hover {
+      background-color: #f0f0f0;
+    }
+
+    /* Basket Styling */
+    .basket-wrapper {
+      display: none;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 350px;
+      height: 100%;
+      background-color: #fff;
+      box-shadow: -4px 0 15px rgba(0, 0, 0, 0.2);
+      padding: 30px;
+      z-index: 1000;
+      border-radius: 10px 0 0 10px;
+      transition: all 0.3s ease;
+    }
+
+    .basket-wrapper.open {
+      display: block;
+    }
+
+    .basket-wrapper h3 {
+      font-size: 28px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .basket-wrapper .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .basket-wrapper .close-btn:hover {
+      background-color: #555;
+    }
+
+    .basket-wrapper .item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f0f0f0;
+      padding: 15px 0;
+    }
+
+    .basket-wrapper .item img {
+      width: 60px;
+      height: auto;
+      border-radius: 8px;
+      margin-right: 15px;
+    }
+
+    .basket-wrapper .item-details {
+      flex-grow: 1;
+    }
+
+    .basket-wrapper .item-details span {
+      display: block;
+      color: #555;
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+
+    .basket-wrapper .item-details .item-name {
+      font-weight: bold;
+      color: #000;
+    }
+
+    .basket-wrapper .item .item-price {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .basket-wrapper .total-price {
+      font-size: 20px;
+      font-weight: bold;
+      margin-top: 20px;
+      text-align: right;
+      color: #000;
+    }
+
+    .basket-wrapper .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+
+    .basket-wrapper .actions button {
+      padding: 12px 25px;
+      background-color: #333;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 18px;
+    }
+
+    .basket-wrapper .actions button:hover {
+      background-color: #555;
+    }
+
+    /* Mobile Styling */
+    @media screen and (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .basket-button {
+        font-size: 28px;
+      }
+
+      .products {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        padding: 10px;
+      }
+
+      .product img {
+        max-width: 100%;
+      }
+
+      .pagination button {
+        font-size: 14px;
+        padding: 8px 12px;
+      }
+
+      .basket-wrapper {
+        width: 280px;
+        padding: 20px;
+      }
+
+      .basket-wrapper h3 {
+        font-size: 24px;
+      }
+
+      .basket-wrapper .actions button {
+        font-size: 16px;
+        padding: 10px 20px;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      header {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .products {
+        grid-template-columns: 1fr;
+        padding: 10px;
+      }
+
+      .pagination button {
+        font-size: 14px;
+        padding: 8px 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="time" id="current-time"></div>
+    <a href="javascript:void(0);" class="basket-button" onclick="toggleBasket()">🛒</a>
+  </header>
+
+  <h1>HOODIE</h1>
+  <div class="products-container">
+      <div class="products">
+          <div class="product">
+              <a href="index2.html">
+                  <img src="https://kdmv.io/cdn/shop/files/HOODIES_0001_3-1.jpg?v=1734502245&width=720" alt="KDMV IS THE FUTURE HOODIE">
+                  <h3>KDMV IS THE FUTURE HOODIE </h3>
+              </a>
+              <p class="price">$42.00</p>
+          </div>
+          <div class="product">
+              <a href="index7.html">
+                  <img src="https://kdmv.io/cdn/shop/files/1-1.png?v=1737907292&width=990" alt="Growing Up Sucks Hoodie">
+                  <h3>Growing Up Sucks Hoodie</h3>
+              </a>
+              <p class="price">$42.00</p>
+          </div>
+          <div class="product">
+              <a href="index8.html">
+                  <img src="https://kdmv.io/cdn/shop/files/3-1_8c214cbb-3052-4f8b-8966-9542dacaa1cc.png?v=1737905270&width=990" alt="Maxell Bootleg Hoodie">
+                  <h3>Maxell Bootleg Hoodie</h3>
+              </a>
+              <p class="price">$42.00</p>
+          </div>
+          <div class="product">
+              <a href="index13.html">
+                  <img src="https://kdmv.io/cdn/shop/files/2-1_5846bf2a-bf61-4738-8e60-d59afb60e67c.png?v=1737907646&width=990" alt="KDMH Hoodie">
+                  <h3>KDMH Hoodie</h3>
+              </a>
+              <p class="price">$42.00</p>
+          </div>
+
+          <div class="product">
+              <a href="index18.html">
+                  <img src="https://kdmv.io/cdn/shop/files/3-2_7b869728-f98e-4ef4-8732-b2fa539ec45d.jpg?v=1732599930&width=990" alt="Last Frontier Hoodie Washed Black">
+                  <h3>Last Frontier Hoodie Washed Black</h3>
+              </a>
+              <p class="price">$50.00</p>
+          </div>
+      </div>
+  </div>
+  <div class="pagination">
+    <button onclick="location.href='index19.html'">1</button>
+    <button onclick="location.href='index20.html'">2</button>
+    <button onclick="location.href='index22.html'">3</button>
+    <button onclick="location.href='index21.html'">4</button>
+  </div>
+
+  <div class="basket-wrapper" id="basketWrapper">
+    <button class="close-btn" onclick="toggleBasket()">X</button>
+    <h3>Shopping Cart</h3>
+    <div id="basketItems"></div>
+    <div id="totalPrice" class="total-price">Total: $0.00</div>
+    <div class="actions">
+      <button onclick="checkout()">Checkout</button>
+      <button onclick="continueShopping()">Continue Shopping</button>
+    </div>
+  </div>
+
+  <script>
+    function toggleBasket() {
+      const basket = document.getElementById('basketWrapper');
+      basket.classList.toggle('open');
+      displayBasket();
+    }
+
+    function displayBasket() {
+      const basket = JSON.parse(localStorage.getItem('basket')) || [];
+      const basketItems = document.getElementById('basketItems');
+      const totalPrice = document.getElementById('totalPrice');
+      basketItems.innerHTML = '';
+      let total = 0;
+
+      if (basket.length === 0) {
+        basketItems.innerHTML = '<div class="empty-message">Your cart is empty!</div>';
+        totalPrice.innerHTML = 'Total: $0.00';
+      } else {
+        basket.forEach(item => {
+          const itemDiv = document.createElement('div');
+          itemDiv.classList.add('item');
+          itemDiv.innerHTML = `
+            <img src="${item.image}" alt="${item.name}">
+            <div class="item-details">
+              <span class="item-name">${item.name}</span>
+              <span>Quantity: ${item.quantity}</span>
+            </div>
+            <span class="item-price">$${item.price * item.quantity}</span>
+          `;
+          basketItems.appendChild(itemDiv);
+          total += item.price * item.quantity;
+        });
+        totalPrice.innerHTML = `Total: $${total.toFixed(2)}`;
+      }
+    }
+
+    function checkout() {
+      alert('Proceeding to checkout');
+      // Implement checkout logic
+    }
+
+    function continueShopping() {
+      toggleBasket(); // Close basket when continuing shopping
+    }
+
+    window.onload = displayBasket;
+  </script>
+</body>
+</html>
